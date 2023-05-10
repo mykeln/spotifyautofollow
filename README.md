@@ -1,6 +1,9 @@
 # Spotify Auto Follow
 Automatically follow all artists that are in a specified Spotify playlist
 
+## Screenshot
+<img width="835" alt="Screenshot 2023-05-10 at 3 32 21 PM" src="https://github.com/mykeln/spotifyautofollow/assets/97042/fe07b303-b904-41ae-b5f3-0b7b1dd4d492">
+
 ## Setup
 1. Go to https://developer.spotify.com/dashboard and create a new app.
 - Give it any name you'd like

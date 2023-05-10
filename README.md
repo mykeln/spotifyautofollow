@@ -16,6 +16,6 @@ Automatically follow all artists that are in a specified Spotify playlist
 1. Run `node index.js`
 2. Open Spotify, find the playlist you'd like to follow artists in, click the Share button, then "Copy Link to Playlist"
 3. Paste the full URL into the terminal window
-4. The script will run and then open a browser window to tell you when it's done
+4. The script will run, writing each follow to the console finally opening a browser window to tell you when it's done
 
 You should now be following all artists!

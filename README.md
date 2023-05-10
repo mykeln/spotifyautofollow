@@ -19,3 +19,6 @@ Automatically follow all artists that are in a specified Spotify playlist
 4. The script will run, writing each follow to the console finally opening a browser window to tell you when it's done
 
 You should now be following all artists!
+
+## P.S.
+Do you like experimental electronic music? Check the playlists on my profile: https://open.spotify.com/user/mvkel?si=8d23ffa89bb042af 😘

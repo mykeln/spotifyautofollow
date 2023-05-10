@@ -91,7 +91,7 @@ async function getPlaylistIdFromUser() {
 async function followArtistsInPlaylist(playlistId) {
   try {
     const response = await spotifyApi.getPlaylistTracks(playlistId);
-    
+
     if (!response.body.items) {
       console.error('Unexpected response format:', response.body);
       return;
@@ -106,8 +106,19 @@ async function followArtistsInPlaylist(playlistId) {
       }
     }
 
-    const followResponse = await spotifyApi.followArtists([...artistIds]);
-    console.log('Successfully followed artists:', followResponse);
+    // Set a delay between follows (in milliseconds)
+    const delayBetweenFollows = 200;
+
+    for (const artistId of artistIds) {
+      try {
+        await spotifyApi.followArtists([artistId]);
+        const artist = await spotifyApi.getArtist(artistId);
+        console.log(`Successfully followed artist: ${artist.body.name}`);
+      } catch (error) {
+        console.error(`Error following artist (ID: ${artistId}):`, error);
+      }
+      await new Promise((resolve) => setTimeout(resolve, delayBetweenFollows));
+    }
   } catch (error) {
     console.error('Error following artists:', error);
   }

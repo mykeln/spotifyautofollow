@@ -97,7 +97,7 @@ async function findAndAddTrack(trackName, playlistId) {
     if (result.length) {
       const trackUri = result[0].item.uri;
       console.log(`Found: ${result[0].item.name} by ${result[0].item.artists.map(artist => artist.name).join(', ')}`);
-      await addTrackToPlaylist(playlistId, trackUri);
+      //await addTrackToPlaylist(playlistId, trackUri);
       await downloadFromYouTube(trackName);
 
     } else {
@@ -128,28 +128,38 @@ async function processTracklist(tracks, playlistId) {
   }
 }
 
-// Function to download a track from YouTube
+// Function to download a track from YouTube using yt-dlp
 function downloadFromYouTube(trackName) {
   return new Promise((resolve, reject) => {
-    // Replace spaces with underscores for the filename
-    const filename = trackName.replace(/\s+/g, '_') + '.mp3';
+    // Ensure the tracks directory exists
+    const tracksDir = path.join(__dirname, 'tracks');
+    if (!fs.existsSync(tracksDir)){
+      fs.mkdirSync(tracksDir);
+    }
 
-    // Call youtube-dl with the track name, requesting audio format and specifying the output filename
-    const command = `youtube-dl "ytsearch1:${trackName}" --extract-audio --audio-format mp3 -o "${filename}"`;
+    // Replace spaces with underscores for the filename and set the download path to the /tracks folder
+    const safeTrackName = trackName.replace(/\s+/g, '_');
+    const filename = `${safeTrackName}.%(ext)s`;
+    const outputPath = path.join(tracksDir, filename);
+
+    // Call yt-dlp with the track name, requesting audio format and specifying the output filename
+    const command = `yt-dlp --default-search "ytsearch" --extract-audio --audio-format mp3 --output "${outputPath}" "${trackName}"`;
 
     exec(command, (error, stdout, stderr) => {
       if (error) {
-        console.error(`youtube-dl error: ${error}`);
+        console.error(`yt-dlp error: ${error}`);
         return reject(error);
       }
       if (stderr) {
-        console.error(`youtube-dl stderr: ${stderr}`);
+        console.error(`yt-dlp stderr: ${stderr}`);
       }
-      console.log(`youtube-dl stdout: Downloaded ${trackName}`);
+      console.log(`yt-dlp stdout: Downloaded ${trackName} to ${outputPath}`);
       resolve(stdout);
     });
   });
 }
+
+
 
 
 // Import the open package using dynamic import

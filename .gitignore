@@ -1,1 +1,4 @@
 .env
+tracks/
+.DS_Store
+node_modules/
